@@ -1,21 +1,20 @@
 var express = require("express");
 var router = express.Router();
-const axios = require("axios");
+const {
+  getFiles,
+  downloadFiles,
+  formatResponse,
+} = require("../services/files.services");
 
-/* GET users listing. */
-router.get("/data", function (req, res, next) {
-  axios
-    .get("https://echo-serv.tbxnet.com/v1/secret/files", {
-      headers: {
-        Authorization: `Bearer aSuperSecretKey`,
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+/* GET files */
+router.get("/data", async function (req, res, next) {
+  const allFiles = await getFiles();
+  const downloadedFiles = await downloadFiles(allFiles);
+  const formatFiles = [];
+  for (var i = 0; i < downloadedFiles.length; i++) {
+    formatFiles.push(formatResponse(downloadedFiles[i]));
+  }
+  res.send(formatFiles);
 });
 
 module.exports = router;
