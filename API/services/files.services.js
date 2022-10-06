@@ -24,8 +24,8 @@ module.exports = class {
   }
 
   static formatResponse(file) {
-    const formattedResponse = new Object();
-    const lines = new Object();
+    const formattedResponse = new Object({});
+    const lines = new Object({});
 
     for (var i = 1; i < file.length; i++) {
       if (file[i].length === 4 && Array.isArray(file[i])) {
