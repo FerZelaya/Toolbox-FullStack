@@ -28,12 +28,13 @@ module.exports = class {
     const lines = new Object();
 
     for (var i = 1; i < file.length; i++) {
-      if (file[i].length === 4) {
-        formattedResponse["file"] = file[i] && file[i].slice(0, 1).shift();
+      if (file[i].length === 4 && Array.isArray(file[i])) {
+        formattedResponse["file"] =
+          Array.isArray(file[i]) && file[i].slice(0, 1).shift();
 
-        lines["text"] = file[i].at(-1);
-        lines["number"] = file[i].at(-2);
-        lines["hex"] = file[i].at(-3);
+        lines["text"] = Array.isArray(file[i]) && file[i].slice(1, 2).shift();
+        lines["number"] = Array.isArray(file[i]) && file[i].slice(2, 3).shift();
+        lines["hex"] = Array.isArray(file[i]) && file[i].slice(3, 4).shift();
 
         formattedResponse["lines"]
           ? formattedResponse["lines"].push(lines)
